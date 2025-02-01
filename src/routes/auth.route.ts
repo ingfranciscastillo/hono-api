@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator'
-import {sign, jwt} from "hono/jwt"
+import {sign} from "hono/jwt"
 
 import { db } from "../db";
 import { usersTable } from "../db/schema";
