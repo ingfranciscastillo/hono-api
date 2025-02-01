@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { z } from 'zod';
 import { zValidator } from '@hono/zod-validator'
+import {sign, jwt} from "hono/jwt"
 
 import { db } from "../db";
 import { usersTable } from "../db/schema";
@@ -21,6 +22,10 @@ const loginSchema = z.object({
     password: z.string().trim().toLowerCase().min(8, { message: "Invalid password"}),
 });
 
+if(!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+}
+
 export const authRouter = new Hono();
 
 // /api/v1/auth/register
@@ -37,26 +42,60 @@ authRouter.post("/register", zValidator("json", registerSchema), async (c) => {
     }
 
     const bscryptHash = await Bun.password.hash(password, {
-        algorithm: "bcrypt",
-        cost: 4,
+        algorithm: "argon2id",
+        memoryCost: 4,
+        timeCost: 3,
     })
 
-    await db.insert(usersTable).values({
+    const [newUser] = await db.insert(usersTable).values({
         email,
         password: bscryptHash,
         username,
-    });
+    }).returning({
+        id: usersTable.id,
+        email: usersTable.email,
+        username: usersTable.username,
+    })
 
     return c.json({
-        email, password, username
+        newUser
     });
 })
 
 // /api/v1/auth/login
 authRouter.post("/login", zValidator("json", loginSchema), async (c) => {
+
     const { email, password } = await c.req.json();
 
-    return c.json({ email, password });
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email));
+
+    if (!user) {
+        return c.json({
+            error: "User not found"
+        }, 404);
+    }
+
+    const passwordMatch = await Bun.password.verify(password, user.password, "argon2id");
+
+    if (!passwordMatch) {
+        return c.json({
+            error: "Invalid password"
+        }, 401);
+    }
+
+    const payload = {
+        id: user.id,
+        email: user.email,
+        exp: Math.floor(Date.now() / 1000) + 60 * 5 // 5 minutes
+    };
+    const secret = process.env.JWT_SECRET as string;
+
+    const token = await sign(
+        payload,
+        secret,
+    );
+
+    return c.json({ token });
 })
 
 export default authRouter;
