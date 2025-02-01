@@ -1,5 +1,5 @@
 {
-  "name": "kpop-api",
+  "name": "hono-api",
   "module": "index.ts",
   "type": "module",
   "scripts": {
