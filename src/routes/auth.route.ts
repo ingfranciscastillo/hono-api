@@ -58,7 +58,8 @@ authRouter.post("/register", zValidator("json", registerSchema), async (c) => {
     })
 
     return c.json({
-        newUser
+        message: "Usuario registrado exitosamente",
+        user: newUser
     });
 })
 

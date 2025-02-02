@@ -1,6 +1,7 @@
 {
   "name": "hono-api",
   "module": "index.ts",
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "dev": "bun --watch src/server.ts"
