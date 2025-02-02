@@ -110,9 +110,9 @@ El servidor estará disponible en http://localhost:4000.
 }
 ```
 
-# Ruta Protegida
+# Rutas Protegidas
 
-    URL: /api/protected
+    URL: /api/protected/hello
 
     Método: GET
 
@@ -127,14 +127,33 @@ El servidor estará disponible en http://localhost:4000.
 ## Respuesta Exitosa:
 ```bash
 {
-  "message": "Esta es una ruta protegida",
+  "message": "Hello World! This is a protected route.",
+}
+```
+
+    URL: /api/protected/profile
+
+    Método: GET
+
+    Headers:
+
+```bash
+{
+  "Authorization": "Bearer tu_token_jwt"
+}
+```
+
+## Respuesta Exitosa:
+```bash
+{
+  "message": "This is your protected profile",
   "user": {
     "id": 1,
-    "name": "Nombre del Usuario",
     "email": "usuario@example.com"
   }
 }
 ```
+
 
 # Licencia
 
