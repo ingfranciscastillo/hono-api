@@ -65,11 +65,11 @@ El servidor estará disponible en http://localhost:4000.
 
 ## Registro de Usuario
 
-    URL: /api/v1/auth/register
+URL: /api/v1/auth/register
 
-    Método: POST
+Método: POST
 
-    Body:
+Body:
 
 ```bash
    {
@@ -89,11 +89,11 @@ El servidor estará disponible en http://localhost:4000.
 
 # Inicio de Sesión
 
-    URL: /api/v1/auth/login
+URL: /api/v1/auth/login
 
-    Método: POST
+Método: POST
 
-    Body:
+Body:
 
 ```bash
 {
@@ -112,11 +112,11 @@ El servidor estará disponible en http://localhost:4000.
 
 # Rutas Protegidas
 
-    URL: /api/protected/hello
+URL: /api/protected/hello
 
-    Método: GET
+Método: GET
 
-    Headers:
+Headers:
 
 ```bash
 {
@@ -131,11 +131,11 @@ El servidor estará disponible en http://localhost:4000.
 }
 ```
 
-    URL: /api/protected/profile
+URL: /api/protected/profile
 
-    Método: GET
+Método: GET
 
-    Headers:
+Headers:
 
 ```bash
 {
@@ -154,11 +154,6 @@ El servidor estará disponible en http://localhost:4000.
 }
 ```
 
-
 # Licencia
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
-
-```bash
-Este `README.md` proporciona una descripción general del proyecto, las tecnologías utilizadas, cómo configurar y ejecutar el proyecto, y cómo contribuir. Asegúrate de ajustar los detalles según sea necesario para tu proyecto específico.
-```
